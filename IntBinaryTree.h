@@ -1,7 +1,7 @@
-// Stage 6: retain the class while the driver adds display, add, and search menus.
+// Stage 7: retain the class while the driver exposes its deletion operation.
 // IntBinaryTree adapted from integers to string code records.
-#ifndef INTBINARYTREE6_H
-#define INTBINARYTREE6_H
+#ifndef INTBINARYTREE7_H
+#define INTBINARYTREE7_H
 
 #include <cstddef>
 #include <iostream>

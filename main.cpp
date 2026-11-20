@@ -1,9 +1,9 @@
-// Stage 6: add a menu with display, add, and search options.
+// Stage 7: extend the menu to delete existing records safely.
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
-#include "IntBinaryTree6.h"
+#include "IntBinaryTree7.h"
 using namespace std;
 
 // Test alphanumeric keys, leading zeros, duplicates, searches, and deletion.
@@ -118,6 +118,17 @@ bool searchRecord(const IntBinaryTree& tree) {
     return true;
 }
 
+bool deleteRecord(IntBinaryTree& tree) {
+    string code;
+    if (!readCode("Code to delete: ", code))
+        return false;
+    if (tree.remove(code))
+        cout << "Deleted: " << code << '\n';
+    else
+        cout << "Not found: " << code << '\n';
+    return true;
+}
+
 int main(int argc, char* argv[]) {
     if (argc > 2) {
         cerr << "Usage: " << argv[0] << " [codes-file]\n";
@@ -134,15 +145,17 @@ int main(int argc, char* argv[]) {
              << "[1] Display records\n"
              << "[2] Add a record\n"
              << "[3] Search for a record\n"
+             << "[4] Delete a record\n"
              << "[0] Exit\n";
         int choice;
-        if (!readInteger("Enter your choice: ", 0, 3, choice) || choice == 0)
+        if (!readInteger("Enter your choice: ", 0, 4, choice) || choice == 0)
             break;
         bool keepRunning = true;
         switch (choice) {
             case 1: displayRecords(tree); break;
             case 2: keepRunning = addRecord(tree); break;
             case 3: keepRunning = searchRecord(tree); break;
+            case 4: keepRunning = deleteRecord(tree); break;
         }
         if (!keepRunning)
             break;
