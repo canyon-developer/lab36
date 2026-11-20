@@ -1,8 +1,9 @@
-// Stage 1 / Milestone 1: build the provided class and open the data file.
+// Stage 2: read all records as strings before converting the tree.
 #include <fstream>
 #include <iostream>
 #include <string>
-#include "IntBinaryTree1.h"
+#include <vector>
+#include "IntBinaryTree2.h"
 using namespace std;
 
 // Exercise the supplied integer class before changing the stored type.
@@ -40,13 +41,16 @@ int main(int argc, char* argv[]) {
         cerr << "Cannot open codes file: " << filename << '\n';
         return 1;
     }
+    vector<string> codes;
     string code;
-    if (input >> code)
-        cout << "First string record: " << code << '\n';
-    else if (input.bad()) {
+    while (input >> code)
+        codes.push_back(code);
+    if (input.bad()) {
         cerr << "Error reading codes file.\n";
         return 1;
-    } else
-        cout << "The codes file is empty.\n";
+    }
+    cout << "Read " << codes.size() << " string records. First five:\n";
+    for (size_t index = 0; index < codes.size() && index < 5; ++index)
+        cout << codes[index] << '\n';
     return 0;
 }

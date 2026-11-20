@@ -1,7 +1,7 @@
-// Stage 1: integer BST setup and basic checks.
+// Stage 2: integer BST retained while the driver reads string records.
 // Specification file for the IntBinaryTree class
-#ifndef INTBINARYTREE1_H
-#define INTBINARYTREE1_H
+#ifndef INTBINARYTREE2_H
+#define INTBINARYTREE2_H
 
 #include <iostream>
 using namespace std;
@@ -189,4 +189,4 @@ void IntBinaryTree::displayPostOrder(TreeNode *nodePtr) const {
    }
 }
 
-#endif // INTBINARYTREE1_H
+#endif // INTBINARYTREE2_H
