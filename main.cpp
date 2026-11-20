@@ -1,9 +1,9 @@
-// Stage 7: extend the menu to delete existing records safely.
+// Stage 8 / Milestone 4: complete the menu with record modification.
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
-#include "IntBinaryTree7.h"
+#include "IntBinaryTree8.h"
 using namespace std;
 
 // Test alphanumeric keys, leading zeros, duplicates, searches, and deletion.
@@ -129,6 +129,25 @@ bool deleteRecord(IntBinaryTree& tree) {
     return true;
 }
 
+bool modifyRecord(IntBinaryTree& tree) {
+    string oldCode, newCode;
+    if (!readCode("Code to modify: ", oldCode))
+        return false;
+    if (!tree.searchNode(oldCode)) {
+        cout << "Not found: " << oldCode << '\n';
+        return true;
+    }
+    if (!readCode("Replacement code: ", newCode))
+        return false;
+    if (oldCode == newCode)
+        cout << "Record unchanged.\n";
+    else if (tree.modifyNode(oldCode, newCode))
+        cout << "Modified: " << oldCode << " -> " << newCode << '\n';
+    else
+        cout << "Replacement already exists. Original record kept.\n";
+    return true;
+}
+
 int main(int argc, char* argv[]) {
     if (argc > 2) {
         cerr << "Usage: " << argv[0] << " [codes-file]\n";
@@ -146,9 +165,10 @@ int main(int argc, char* argv[]) {
              << "[2] Add a record\n"
              << "[3] Search for a record\n"
              << "[4] Delete a record\n"
+             << "[5] Modify a record\n"
              << "[0] Exit\n";
         int choice;
-        if (!readInteger("Enter your choice: ", 0, 4, choice) || choice == 0)
+        if (!readInteger("Enter your choice: ", 0, 5, choice) || choice == 0)
             break;
         bool keepRunning = true;
         switch (choice) {
@@ -156,6 +176,7 @@ int main(int argc, char* argv[]) {
             case 2: keepRunning = addRecord(tree); break;
             case 3: keepRunning = searchRecord(tree); break;
             case 4: keepRunning = deleteRecord(tree); break;
+            case 5: keepRunning = modifyRecord(tree); break;
         }
         if (!keepRunning)
             break;

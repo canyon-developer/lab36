@@ -1,7 +1,7 @@
-// Stage 7: retain the class while the driver exposes its deletion operation.
+// Stage 8: add modifyNode to replace keys while preserving BST order.
 // IntBinaryTree adapted from integers to string code records.
-#ifndef INTBINARYTREE7_H
-#define INTBINARYTREE7_H
+#ifndef INTBINARYTREE8_H
+#define INTBINARYTREE8_H
 
 #include <cstddef>
 #include <iostream>
@@ -39,6 +39,7 @@ public:
     bool insertNode(const string&);
     bool searchNode(const string&) const;
     bool remove(const string&);
+    bool modifyNode(const string&, const string&);
     size_t size() const { return nodeCount; }
 
     void displayInOrder() const { displayInOrder(root); }
@@ -130,6 +131,20 @@ inline void IntBinaryTree::makeDeletion(TreeNode *&nodePtr) {
         nodePtr = nodePtr->right;
         delete tempNodePtr;
     }
+}
+
+inline bool IntBinaryTree::modifyNode(const string& oldCode,
+                                      const string& newCode) {
+    if (!searchNode(oldCode) || newCode.empty())
+        return false;
+    if (oldCode == newCode)
+        return true;
+    // Insert first so a duplicate or failed allocation leaves the old code.
+    // Removing and reinserting a key preserves the BST ordering.
+    if (!insertNode(newCode))
+        return false;
+    remove(oldCode);
+    return true;
 }
 
 inline void IntBinaryTree::displayInOrder(TreeNode *nodePtr) const {
