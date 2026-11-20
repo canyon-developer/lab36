@@ -1,8 +1,8 @@
-// Stage 4: populate the string BST with every code in the file.
+// Stage 5 / Milestone 3: display the populated BST using inorder traversal.
 #include <fstream>
 #include <iostream>
 #include <string>
-#include "IntBinaryTree4.h"
+#include "IntBinaryTree5.h"
 using namespace std;
 
 // Test alphanumeric keys, leading zeros, duplicates, searches, and deletion.
@@ -55,6 +55,14 @@ bool loadCodes(const string& filename, IntBinaryTree& tree) {
     return true;
 }
 
+void displayRecords(const IntBinaryTree& tree) {
+    cout << "Records in sorted order (" << tree.size() << "):\n";
+    if (tree.size() == 0)
+        cout << "The tree is empty.\n";
+    else
+        tree.displayInOrder();
+}
+
 int main(int argc, char* argv[]) {
     if (argc > 2) {
         cerr << "Usage: " << argv[0] << " [codes-file]\n";
@@ -66,5 +74,6 @@ int main(int argc, char* argv[]) {
     IntBinaryTree tree;
     if (!loadCodes(filename, tree))
         return 1;
+    displayRecords(tree);
     return 0;
 }
