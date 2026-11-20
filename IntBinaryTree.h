@@ -1,6 +1,10 @@
+// Stage 1: integer BST setup and basic checks.
 // Specification file for the IntBinaryTree class
-#ifndef INTBINARYTREE_H
-#define INTBINARYTREE_H
+#ifndef INTBINARYTREE1_H
+#define INTBINARYTREE1_H
+
+#include <iostream>
+using namespace std;
 
 // The IntBinaryTree class manages a binary tree of integers.
 class IntBinaryTree {
@@ -43,9 +47,6 @@ public:
 };
 
 // Implementation file for the IntBinaryTree class
-#include <iostream>
-#include "IntBinaryTree.h"
-using namespace std;
 
 // insert accepts a TreeNode pointer and a pointer to a node.
 // The function inserts the node into the tree pointed to by 
@@ -112,6 +113,8 @@ void IntBinaryTree::remove(int num) {
 // deleteNode deletes the node whose value 
 // member is the same as num.              
 void IntBinaryTree::deleteNode(int num, TreeNode *&nodePtr) {
+   if (!nodePtr)
+      return; // A missing value has no node to delete.
    if (num < nodePtr->value)
       deleteNode(num, nodePtr->left);
    else if (num > nodePtr->value)
@@ -186,4 +189,4 @@ void IntBinaryTree::displayPostOrder(TreeNode *nodePtr) const {
    }
 }
 
-#endif // INTBINARYTREE_H
+#endif // INTBINARYTREE1_H
