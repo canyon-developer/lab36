@@ -1,7 +1,7 @@
-// Stage 3: convert node values and operations to strings; reject duplicate codes.
+// Stage 4: retain the string class while the driver loads codes.txt.
 // IntBinaryTree adapted from integers to string code records.
-#ifndef INTBINARYTREE3_H
-#define INTBINARYTREE3_H
+#ifndef INTBINARYTREE4_H
+#define INTBINARYTREE4_H
 
 #include <cstddef>
 #include <iostream>

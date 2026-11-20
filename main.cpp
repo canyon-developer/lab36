@@ -1,7 +1,8 @@
-// Stage 3 / Milestone 2: use and test the converted string BST.
+// Stage 4: populate the string BST with every code in the file.
+#include <fstream>
 #include <iostream>
 #include <string>
-#include "IntBinaryTree3.h"
+#include "IntBinaryTree4.h"
 using namespace std;
 
 // Test alphanumeric keys, leading zeros, duplicates, searches, and deletion.
@@ -29,17 +30,41 @@ bool testStringTree() {
     return true;
 }
 
-int main() {
+// Read whitespace-separated codes in their original file order.
+bool loadCodes(const string& filename, IntBinaryTree& tree) {
+    ifstream input(filename);
+    if (!input) {
+        cerr << "Cannot open codes file: " << filename << '\n';
+        return false;
+    }
+    size_t records = 0;
+    size_t duplicates = 0;
+    string code;
+    while (input >> code) {
+        ++records;
+        if (!tree.insertNode(code))
+            ++duplicates;
+    }
+    if (input.bad()) {
+        cerr << "Error reading codes file: " << filename << '\n';
+        return false;
+    }
+    cout << "Loaded " << tree.size() << " unique codes from " << filename
+         << " (" << records << " records read, " << duplicates
+         << " duplicates skipped).\n";
+    return true;
+}
+
+int main(int argc, char* argv[]) {
+    if (argc > 2) {
+        cerr << "Usage: " << argv[0] << " [codes-file]\n";
+        return 1;
+    }
+    string filename = argc == 2 ? argv[1] : "codes.txt";
     if (!testStringTree())
         return 1;
-
     IntBinaryTree tree;
-    tree.insertNode("M4");
-    tree.insertNode("B2");
-    tree.insertNode("0012");
-    tree.insertNode("10");
-    tree.insertNode("2");
-    cout << "Sample strings in order (10 comes before 2):\n";
-    tree.displayInOrder();
+    if (!loadCodes(filename, tree))
+        return 1;
     return 0;
 }
