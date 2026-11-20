@@ -1,56 +1,45 @@
-// Stage 2: read all records as strings before converting the tree.
-#include <fstream>
+// Stage 3 / Milestone 2: use and test the converted string BST.
 #include <iostream>
 #include <string>
-#include <vector>
-#include "IntBinaryTree2.h"
+#include "IntBinaryTree3.h"
 using namespace std;
 
-// Exercise the supplied integer class before changing the stored type.
-bool testIntegerTree() {
+// Test alphanumeric keys, leading zeros, duplicates, searches, and deletion.
+bool testStringTree() {
     IntBinaryTree tree;
-    tree.insertNode(5);
-    tree.insertNode(3);
-    tree.insertNode(8);
-    if (!tree.searchNode(3) || tree.searchNode(99)) {
-        cerr << "Integer search check failed.\n";
+    string codes[] = {"M4", "B2", "T9", "0012", "10", "2"};
+    for (const string& code : codes) {
+        if (!tree.insertNode(code) || !tree.searchNode(code)) {
+            cerr << "String insertion/search check failed.\n";
+            return false;
+        }
+    }
+    if (tree.insertNode("M4") || tree.insertNode("")
+        || tree.searchNode("12") || tree.searchNode("missing")
+        || tree.remove("missing") || tree.size() != 6) {
+        cerr << "String key validation check failed.\n";
         return false;
     }
-    tree.remove(3);
-    tree.remove(99);
-    if (tree.searchNode(3)) {
-        cerr << "Integer deletion check failed.\n";
+    if (!tree.remove("T9") || tree.searchNode("T9") || tree.size() != 5
+        || !tree.insertNode("T9")) {
+        cerr << "String deletion check failed.\n";
         return false;
     }
-    cout << "Integer BST checks passed. Remaining values:\n";
-    tree.displayInOrder();
+    cout << "String BST checks passed.\n";
     return true;
 }
 
-int main(int argc, char* argv[]) {
-    if (argc > 2) {
-        cerr << "Usage: " << argv[0] << " [codes-file]\n";
-        return 1;
-    }
-    string filename = argc == 2 ? argv[1] : "codes.txt";
-    if (!testIntegerTree())
+int main() {
+    if (!testStringTree())
         return 1;
 
-    ifstream input(filename);
-    if (!input) {
-        cerr << "Cannot open codes file: " << filename << '\n';
-        return 1;
-    }
-    vector<string> codes;
-    string code;
-    while (input >> code)
-        codes.push_back(code);
-    if (input.bad()) {
-        cerr << "Error reading codes file.\n";
-        return 1;
-    }
-    cout << "Read " << codes.size() << " string records. First five:\n";
-    for (size_t index = 0; index < codes.size() && index < 5; ++index)
-        cout << codes[index] << '\n';
+    IntBinaryTree tree;
+    tree.insertNode("M4");
+    tree.insertNode("B2");
+    tree.insertNode("0012");
+    tree.insertNode("10");
+    tree.insertNode("2");
+    cout << "Sample strings in order (10 comes before 2):\n";
+    tree.displayInOrder();
     return 0;
 }
